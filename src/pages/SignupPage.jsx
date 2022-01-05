@@ -64,7 +64,8 @@ const Signup = () => {
         />
         <button type="submit">Sign up</button>
       </form>
-      {error ? <span>{error}</span> : <span></span>}
+      {error ? <span>{error}</span> : ""}
+      {loading ? <span>...Loading</span> : ""}
       <p>
         Already a member? Log in{" "}
         <Link className={style.aLink} to="/login">

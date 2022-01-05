@@ -1,0 +1,8 @@
+#dropzoneWrapper {
+	border-radius: 4px;
+	background-color: #3e3084;
+	text-align: center;
+	margin-top: 1rem;
+	margin-bottom: 1rem;
+	padding: 2rem 1.25rem;
+}

@@ -22,7 +22,7 @@ const LoginPage = () => {
       await login(emailRef.current.value, passwordRef.current.value);
       navigate("/");
     } catch (e) {
-      setError(e.message);
+      setError("Please check your credentials");
       setLoading(false);
     }
   };
@@ -48,6 +48,8 @@ const LoginPage = () => {
           ref={passwordRef}
           required
         />
+        {loading ? <span>...Loading</span> : ""}
+        {error ? <span>{error}</span> : ""}
         <button type="submit">Log in</button>
       </form>
 

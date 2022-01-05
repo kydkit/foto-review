@@ -7,6 +7,7 @@ import LogoutPage from "./pages/LogoutPage";
 import PageNotFound from "./pages/PageNotFound";
 import Navigation from "./pages/partials/Navigation";
 import RequireAuth from "./components/RequireAuth";
+import UploadPage from "./pages/UploadPage";
 
 function App() {
   return (
@@ -25,6 +26,14 @@ function App() {
           element={
             <RequireAuth redirectTo="login">
               <AlbumsPage />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/upload"
+          element={
+            <RequireAuth redirectTo="login">
+              <UploadPage />
             </RequireAuth>
           }
         />
