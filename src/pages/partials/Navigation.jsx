@@ -1,10 +1,9 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useAuthContext } from "../../context/AuthContext";
 //style
 import style from "../../css/Nav.module.css";
 
 const Navigation = () => {
-  const location = useLocation();
   const { currentUser } = useAuthContext();
 
   return (

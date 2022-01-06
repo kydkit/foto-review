@@ -28,11 +28,14 @@ const useUploadPic = () => {
     }
 
     images.forEach(async (image) => {
-      console.log("image name", image.name);
       //construct full path in storage to save image as
-      const storageFullPath = `albums/${currentUser.uid}/${albumId}/${image.name}`;
+      const storageFullPath = `images/${image.name}`;
+      // const storageFullPath = `albums/${currentUser.uid}/${image.name}`;
 
+      //reach out to specific storage
       const storageRef = ref(storage, storageFullPath);
+
+      //upload each image
       const uploadTask = uploadBytesResumable(storageRef, image);
 
       //wait for upload to be completed
@@ -42,7 +45,7 @@ const useUploadPic = () => {
       const url = await getDownloadURL(storageRef);
 
       //create ref to db 'albums'
-      const collectionRef = collection(db, "albums");
+      const collectionRef = collection(db, "images");
 
       //create doc in db for the uploaded image
       await addDoc(collectionRef, {
@@ -52,7 +55,6 @@ const useUploadPic = () => {
         path: storageRef.fullPath,
         size: image.size,
         type: image.type,
-        albumName: "Name your album",
         albumId,
         url,
       });

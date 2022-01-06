@@ -1,12 +1,29 @@
 import { useCallback } from "react";
 import { useDropzone } from "react-dropzone";
+import { useNavigate, useParams } from "react-router-dom";
 import style from "../css/Dropzone.module.css";
+import useUploadPic from "../hooks/useUploadPic";
+
+// import { v4 as uuidv4 } from "uuid";
 
 const UploadDropzone = () => {
+  const navigate = useNavigate();
+  const { id } = useParams();
+  const uploadPic = useUploadPic();
   const onDrop = useCallback((acceptedFiles) => {
     if (!acceptedFiles.length) {
       return;
     }
+
+    //generate uuid for an album
+    // const albumUuid = uuidv4();
+
+    uploadPic.mutate(acceptedFiles, id);
+
+    //nav to home or directly to album?
+    // navigate(`/${albumUuid}`);
+    //navigage('/')
+    // eslint-disable-next-line
   }, []);
 
   const {
@@ -21,7 +38,7 @@ const UploadDropzone = () => {
   });
 
   return (
-    <div>
+    <>
       <div
         {...getRootProps()}
         id={style.dropzoneWrapper}
@@ -39,11 +56,12 @@ const UploadDropzone = () => {
               <span>Drop an acceptable image file</span>
             )
           ) : (
-            <span>Drop your files here</span>
+            <span>Drop your file(s) here</span>
           )}
         </div>
+        {uploadPic.error ? <span>{uploadPic.error}</span> : ""}
       </div>
-    </div>
+    </>
   );
 };
 
