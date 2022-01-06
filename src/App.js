@@ -1,3 +1,4 @@
+import React from "react";
 import { Route, Routes } from "react-router-dom";
 import { ReactQueryDevtools } from "react-query/devtools";
 import HomePage from "./pages/HomePage";
@@ -7,7 +8,6 @@ import LogoutPage from "./pages/LogoutPage";
 import PageNotFound from "./pages/PageNotFound";
 import Navigation from "./pages/partials/Navigation";
 import RequireAuth from "./components/RequireAuth";
-// import UploadPage from "./pages/UploadPage";
 import AlbumPage from "./pages/AlbumPage";
 
 function App() {
@@ -20,7 +20,7 @@ function App() {
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/logout" element={<LogoutPage />} />
-        <Route path="/album/:id" element={<AlbumPage />} />
+        <Route path="/preview/:id" element={<AlbumPage />} />
 
         {/* Protected Routes */}
         <Route
@@ -31,14 +31,14 @@ function App() {
             </RequireAuth>
           }
         />
-        {/* <Route
-          path="/upload"
+        <Route
+          path="/album/:id"
           element={
             <RequireAuth redirectTo="login">
-              <UploadPage />
+              <AlbumPage />
             </RequireAuth>
           }
-        /> */}
+        />
 
         <Route path="*" element={<PageNotFound />} />
       </Routes>

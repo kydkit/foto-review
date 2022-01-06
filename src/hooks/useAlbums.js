@@ -22,24 +22,6 @@ const useAlbums = () => {
     idField: "_id",
   });
 
-  //query specific albumId
-  // const queryAlbumRef = query(
-  //   colPhotosRef,
-  //   where("albumId", "==", albumId),
-  //   orderBy("created", "desc")
-  // );
-
-  // const photosQuery = useFirestoreQueryData(queryKey, queryAlbumRef, {
-  //   idField: "_id",
-  // });
-
-  //getting all albums id and using set to not get repeated ones
-  // const albumRef = [
-  //   ...new Set(
-  //     allPhotosQuery.data && allPhotosQuery.data.map((photo) => photo.albumId)
-  //   ),
-  // ];
-
   return albumsQuery;
 };
 
