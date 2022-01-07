@@ -20,6 +20,7 @@ function App() {
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/logout" element={<LogoutPage />} />
+        {/* link for customer to preview images */}
         <Route path="/preview/:id" element={<AlbumPage />} />
 
         {/* Protected Routes */}

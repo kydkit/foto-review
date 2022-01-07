@@ -30,6 +30,7 @@ const HomePage = () => {
     //generate uuid for an album
     const albumId = uuidv4();
 
+    //reach out to albums collection in the db
     const albumRef = collection(db, "albums");
 
     await addDoc(albumRef, {
@@ -38,8 +39,11 @@ const HomePage = () => {
       albumName: albumNameRef.current.value,
       albumId,
     });
+
+    //hide the input field
     setShow(false);
 
+    //go directly to album to upload images
     navigate(`/album/${albumId}`);
   };
 
@@ -47,7 +51,7 @@ const HomePage = () => {
     <div>
       <h1>Home Page</h1>
       <p>Hi {currentUser.email}</p>
-      <button onClick={createAlbum}>+ Create Album</button>
+      <button onClick={createAlbum}>{show ? "-" : "+"} Create Album</button>
 
       {show ? (
         <form onSubmit={handleNameSubmit}>

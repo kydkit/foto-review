@@ -16,7 +16,6 @@ const LoginPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("submitting");
 
     try {
       setLoading(true);

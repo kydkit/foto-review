@@ -65,7 +65,6 @@ const AlbumPage = () => {
     );
     if (index > -1) {
       newSelection.splice(index, 1);
-      console.log(newSelection);
       return;
     }
     setNewSelection([
@@ -74,14 +73,11 @@ const AlbumPage = () => {
     ]);
     return;
   };
-  console.log(newSelection);
 
   const handleNewAlbum = async () => {
     //generate uuid for an album
     const albumId = uuidv4();
     const albumName = `Album ${new Date().toLocaleString()}`;
-
-    console.log(albumName);
 
     const albumRef = collection(db, "albums");
 
@@ -121,12 +117,10 @@ const AlbumPage = () => {
   return (
     <div>
       <h1>Welcome to your album </h1>
-      {currentUser ? (
+      {currentUser && (
         <button onClick={handleShow}>
           {copy ? "Copied" : "Copy"} link to share
         </button>
-      ) : (
-        ""
       )}
 
       {currentUser ? <UploadDropzone /> : ""}
@@ -145,6 +139,8 @@ const AlbumPage = () => {
           ))}
         </SRLWrapper>
       )}
+
+      {/* show button only when there are uploaded images */}
       {photosQuery.data && !photosQuery.data.length ? (
         ""
       ) : (

@@ -9,6 +9,7 @@ const Navigation = () => {
 
   return (
     <div className={style.navContainer}>
+      {/* used svg code instead of svg file */}
       <Link to="/">
         <svg
           xmlns="http://www.w3.org/2000/svg"
