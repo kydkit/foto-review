@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useParams, useLocation } from "react-router-dom";
+import { useParams, useLocation, useNavigate } from "react-router-dom";
 //fire
 import { useFirestoreQueryData } from "@react-query-firebase/firestore";
 import { ref, getDownloadURL } from "firebase/storage";
@@ -23,6 +23,7 @@ import cardStyle from "../css/Card.module.css";
 const AlbumPage = () => {
   const { id } = useParams();
   const location = useLocation();
+  const navigate = useNavigate();
   const { currentUser } = useAuthContext();
   const [copy, setCopy] = useState(false);
   const [newSelection, setNewSelection] = useState([]);
@@ -112,6 +113,8 @@ const AlbumPage = () => {
         url,
       });
     });
+    alert("A new album has been created");
+    navigate("/");
   };
 
   return (
