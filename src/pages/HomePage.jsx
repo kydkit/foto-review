@@ -1,13 +1,14 @@
-import React from "react";
+import React, { useState, useRef } from "react";
 import { useNavigate } from "react-router";
-import { useState, useRef } from "react";
+//hooks
 import useAlbums from "../hooks/useAlbums";
-
-import { useAuthContext } from "../context/AuthContext";
-import AlbumsList from "../components/AlbumsList";
-
+//fire
 import { db } from "../firebase";
+import { useAuthContext } from "../context/AuthContext";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+//components
+import AlbumsList from "../components/AlbumsList";
+//other
 import { v4 as uuidv4 } from "uuid";
 
 const HomePage = () => {

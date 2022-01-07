@@ -1,27 +1,21 @@
 import React, { useState } from "react";
-import { useParams, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 //fire
-import { useFirestoreQueryData } from "@react-query-firebase/firestore";
 import { ref, getDownloadURL } from "firebase/storage";
-import {
-  collection,
-  query,
-  where,
-  orderBy,
-  addDoc,
-  serverTimestamp,
-} from "firebase/firestore";
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { db, storage } from "../firebase";
 import { useAuthContext } from "../context/AuthContext";
 //components
 import UploadDropzone from "../components/UploadDropzone";
+//hooks
+import useImages from "../hooks/useImages";
 //other
 import { SRLWrapper } from "simple-react-lightbox";
 import { v4 as uuidv4 } from "uuid";
 import cardStyle from "../css/Card.module.css";
 
 const AlbumPage = () => {
-  const { id } = useParams();
+  const photosQuery = useImages();
   const location = useLocation();
   const navigate = useNavigate();
   const { currentUser } = useAuthContext();
@@ -31,30 +25,7 @@ const AlbumPage = () => {
   //create variable with unique link to customer
   const newLink = location.pathname.replace("album", "preview");
 
-  //reach out to images collection on the db
-  const colPhotosRef = collection(db, "images");
-
-  const queryKey = ["images"];
-
-  //query specific albumId
-  const queryAlbumRef = query(
-    colPhotosRef,
-    where("albumId", "==", id),
-    orderBy("created", "desc")
-  );
-
-  const photosQuery = useFirestoreQueryData(
-    queryKey,
-    queryAlbumRef,
-    {
-      idField: "_id",
-      subscribe: true,
-    },
-    {
-      refetchOnMount: "always",
-    }
-  );
-
+  //copy unique link to customer to clipboard
   const handleShow = () => {
     setCopy(!copy);
     navigator.clipboard.writeText(newLink);
@@ -64,10 +35,12 @@ const AlbumPage = () => {
     let index = newSelection.findIndex(
       (selection) => selection.name === image.name
     );
+    //if image already exist in array, remove it from array with splice
     if (index > -1) {
       newSelection.splice(index, 1);
       return;
     }
+    //if image doesn't exist in array, add to array
     setNewSelection([
       ...newSelection,
       { name: image.name, size: image.size, type: image.type },
@@ -78,6 +51,8 @@ const AlbumPage = () => {
   const handleNewAlbum = async () => {
     //generate uuid for an album
     const albumId = uuidv4();
+
+    //create new album name with date and time
     const albumName = `Album ${new Date().toLocaleString()}`;
 
     const albumRef = collection(db, "albums");
