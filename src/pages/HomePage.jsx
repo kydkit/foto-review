@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router";
 import { useState, useRef } from "react";
 import useAlbums from "../hooks/useAlbums";
 
@@ -10,6 +11,7 @@ import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { v4 as uuidv4 } from "uuid";
 
 const HomePage = () => {
+  const navigate = useNavigate();
   const albumsQuery = useAlbums();
   const { currentUser } = useAuthContext();
   const [show, setShow] = useState();
@@ -32,12 +34,13 @@ const HomePage = () => {
 
     await addDoc(albumRef, {
       created: serverTimestamp(),
-      edited: serverTimestamp(),
       owner: currentUser.uid,
       albumName: albumNameRef.current.value,
       albumId,
     });
     setShow(false);
+
+    navigate(`/album/${albumId}`);
   };
 
   return (

@@ -3,6 +3,7 @@ import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
 import { useAuthContext } from "../context/AuthContext";
 import { db, storage } from "../firebase";
+import { v4 as uuidv4 } from "uuid";
 
 const useUploadPic = () => {
   const [error, setError] = useState(null);
@@ -28,9 +29,11 @@ const useUploadPic = () => {
     }
 
     images.forEach(async (image) => {
+      //generate uuid for an image
+      const imageId = uuidv4();
+
       //construct full path in storage to save image as
       const storageFullPath = `images/${image.name}`;
-      // const storageFullPath = `albums/${currentUser.uid}/${image.name}`;
 
       //reach out to specific storage
       const storageRef = ref(storage, storageFullPath);
@@ -44,7 +47,7 @@ const useUploadPic = () => {
       //get download url
       const url = await getDownloadURL(storageRef);
 
-      //create ref to db 'albums'
+      //create ref to db 'images'
       const collectionRef = collection(db, "images");
 
       //create doc in db for the uploaded image
@@ -55,6 +58,7 @@ const useUploadPic = () => {
         path: storageRef.fullPath,
         size: image.size,
         type: image.type,
+        imageId,
         albumId,
         url,
       });

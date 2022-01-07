@@ -1,19 +1,33 @@
 import React, { useState } from "react";
 import { useParams, useLocation } from "react-router-dom";
+//fire
 import { useFirestoreQueryData } from "@react-query-firebase/firestore";
-import { collection, query, where, orderBy } from "firebase/firestore";
-import { db } from "../firebase";
+import { ref, getDownloadURL } from "firebase/storage";
+import {
+  collection,
+  query,
+  where,
+  orderBy,
+  addDoc,
+  serverTimestamp,
+} from "firebase/firestore";
+import { db, storage } from "../firebase";
+import { useAuthContext } from "../context/AuthContext";
 //components
 import UploadDropzone from "../components/UploadDropzone";
-import PhotoCard from "../components/PhotoCard";
+//other
 import { SRLWrapper } from "simple-react-lightbox";
+import { v4 as uuidv4 } from "uuid";
+import cardStyle from "../css/Card.module.css";
 
 const AlbumPage = () => {
   const { id } = useParams();
   const location = useLocation();
+  const { currentUser } = useAuthContext();
   const [copy, setCopy] = useState(false);
-  // const [newLink, setNewLink] = useState();
+  const [newSelection, setNewSelection] = useState([]);
 
+  //create variable with unique link to customer
   const newLink = location.pathname.replace("album", "preview");
 
   //reach out to images collection on the db
@@ -45,12 +59,77 @@ const AlbumPage = () => {
     navigator.clipboard.writeText(newLink);
   };
 
+  const handleSelectPhoto = (image) => {
+    let index = newSelection.findIndex(
+      (selection) => selection.name === image.name
+    );
+    if (index > -1) {
+      newSelection.splice(index, 1);
+      console.log(newSelection);
+      return;
+    }
+    setNewSelection([
+      ...newSelection,
+      { name: image.name, size: image.size, type: image.type },
+    ]);
+    return;
+  };
+  console.log(newSelection);
+
+  const handleNewAlbum = async () => {
+    //generate uuid for an album
+    const albumId = uuidv4();
+    const albumName = `Album ${new Date().toLocaleString()}`;
+
+    console.log(albumName);
+
+    const albumRef = collection(db, "albums");
+
+    await addDoc(albumRef, {
+      created: serverTimestamp(),
+      owner: currentUser.uid,
+      albumName,
+      albumId,
+    });
+
+    newSelection.forEach(async (image) => {
+      const imageId = uuidv4();
+      const storageFullPath = `images/${image.name}`;
+
+      //reach out to specific storage
+      const storageRef = ref(storage, storageFullPath);
+
+      //get download url
+      const url = await getDownloadURL(storageRef);
+      //create ref to db 'images'
+      const collectionRef = collection(db, "images");
+
+      await addDoc(collectionRef, {
+        created: serverTimestamp(),
+        name: image.name,
+        owner: currentUser.uid,
+        path: storageRef.fullPath,
+        size: image.size,
+        type: image.type,
+        imageId,
+        albumId,
+        url,
+      });
+    });
+  };
+
   return (
     <div>
-      <h1>Album name: {id} </h1>
-      <button onClick={handleShow}>{copy ? "Copied" : "Copy link"}</button>
+      <h1>Welcome to your album </h1>
+      {currentUser ? (
+        <button onClick={handleShow}>
+          {copy ? "Copied" : "Copy"} link to share
+        </button>
+      ) : (
+        ""
+      )}
 
-      <UploadDropzone />
+      {currentUser ? <UploadDropzone /> : ""}
 
       {photosQuery.isLoading && <span>Loading....</span>}
 
@@ -59,9 +138,17 @@ const AlbumPage = () => {
       {photosQuery.data && (
         <SRLWrapper>
           {photosQuery.data.map((photo) => (
-            <PhotoCard photo={photo} key={photo.url} />
+            <div key={photo.imageId} className={cardStyle.cards}>
+              <img src={photo.url} alt="" />
+              <input type="checkbox" onClick={() => handleSelectPhoto(photo)} />
+            </div>
           ))}
         </SRLWrapper>
+      )}
+      {photosQuery.data && !photosQuery.data.length ? (
+        ""
+      ) : (
+        <button onClick={handleNewAlbum}>Save selection in new album</button>
       )}
     </div>
   );
