@@ -9,6 +9,7 @@ import PageNotFound from "./pages/PageNotFound";
 import Navigation from "./pages/partials/Navigation";
 import RequireAuth from "./components/RequireAuth";
 import AlbumPage from "./pages/AlbumPage";
+import AlbumPageClient from "./pages/AlbumPage-Client";
 
 function App() {
   return (
@@ -21,7 +22,7 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/logout" element={<LogoutPage />} />
         {/* link for customer to preview images */}
-        <Route path="/preview/:id" element={<AlbumPage />} />
+        <Route path="/preview/:id" element={<AlbumPageClient />} />
 
         {/* Protected Routes */}
         <Route
