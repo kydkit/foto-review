@@ -19,7 +19,7 @@ const AlbumPageClient = () => {
   const [newSelection, setNewSelection] = useState([]);
   const [counter, setCounter] = useState(0);
 
-  //add selection to new array
+  //add selection to new array, if selection has already been picked then it will be unselected
   const handleSelectPhoto = (image) => {
     let index = newSelection.findIndex(
       (selection) => selection.name === image.name
@@ -45,7 +45,7 @@ const AlbumPageClient = () => {
   };
   console.log("added to newSelection array", newSelection);
 
-  const handleDeSelectPhoto = (image) => {
+  const handleDeselectPhoto = (image) => {
     console.log("deselect");
     let index = newSelection.findIndex(
       (selection) => selection.name === image.name
@@ -101,9 +101,7 @@ const AlbumPageClient = () => {
 
   return (
     <div>
-      <h1>Welcome to your album (customer)</h1>
-
-      {counter}
+      <h1>Welcome to your album</h1>
 
       {photosQuery.isLoading && <span>Loading....</span>}
 
@@ -116,13 +114,16 @@ const AlbumPageClient = () => {
               <AlbumCardClient
                 photo={photo}
                 handleSelectPhoto={handleSelectPhoto}
-                handleDeselectPhoto={handleDeSelectPhoto}
+                handleDeselectPhoto={handleDeselectPhoto}
               />
             </div>
           ))}
         </SRLWrapper>
       )}
 
+      <p>
+        {counter} of {photosQuery.data && photosQuery.data.length} selected
+      </p>
       {/* show button only when there are uploaded images */}
       {photosQuery.data && !photosQuery.data.length ? (
         ""
