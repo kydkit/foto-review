@@ -1,0 +1,38 @@
+.folderGroup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 300px;
+  margin: 24px 0;
+}
+
+.folder img {
+  width: 180px;
+  margin-bottom: 16px;
+}
+
+.folderInfo {
+  white-space: nowrap; 
+  max-width: 240px; 
+  overflow: hidden;
+  text-overflow: ellipsis; 
+}
+
+.pen {
+  margin-left: 16px;
+  cursor: pointer;
+}
+
+.nameForm{
+  display: flex;
+  flex-direction: column;
+}
+
+.nameForm input {
+  margin-top: 16px;
+}
+
+.saveButton{
+  margin-top: 16px;
+}
+

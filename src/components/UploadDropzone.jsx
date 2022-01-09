@@ -48,7 +48,7 @@ const UploadDropzone = () => {
               <span>Drop an acceptable image file</span>
             )
           ) : (
-            <span>Drop your file(s) here</span>
+            <span>Drop your file(s) here to upload</span>
           )}
         </div>
         {uploadPic.error ? <span>{uploadPic.error}</span> : ""}

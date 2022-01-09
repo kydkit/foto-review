@@ -1,16 +1,16 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPen } from "@fortawesome/free-solid-svg-icons";
-
+//fire
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../firebase";
+//others
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPen } from "@fortawesome/free-solid-svg-icons";
+import style from "../css/Album.module.css";
 
 const AlbumCard = ({ album }) => {
   const albumChangeNameRef = useRef();
   const [show, setShow] = useState();
-
-  useEffect(() => {}, [albumChangeNameRef]);
 
   const handleEditName = () => {
     setShow(!show);
@@ -28,32 +28,40 @@ const AlbumCard = ({ album }) => {
     await updateDoc(albumNameRef, {
       albumName: albumChangeNameRef.current.value,
     });
+
     setShow(false);
   };
 
   return (
-    <>
-      <Link to={`/album/${album.albumId}`}>
+    <div className={style.folderGroup}>
+      <Link to={`/album/${album.albumId}`} className={style.folder}>
         <img src="assets/folder.svg" alt="" />
       </Link>
-      <div>
+      <div className={style.folderInfo}>
         <span>{album.albumName}</span>
-        <FontAwesomeIcon icon={faPen} onClick={handleEditName} />
+        <FontAwesomeIcon
+          icon={faPen}
+          onClick={handleEditName}
+          className={style.pen}
+        />
         {show ? (
-          <form onSubmit={(e) => handleNameChangeSubmit(e)}>
+          <form
+            onSubmit={(e) => handleNameChangeSubmit(e)}
+            className={style.nameForm}
+          >
             <input
               type="text"
               placeholder="name"
               ref={albumChangeNameRef}
               required
             />
-            <button>Save</button>
+            <button className={style.saveButton}>Save</button>
           </form>
         ) : (
           ""
         )}
       </div>
-    </>
+    </div>
   );
 };
 

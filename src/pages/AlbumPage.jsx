@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+
 //fire
 import { ref, getDownloadURL } from "firebase/storage";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
@@ -7,15 +8,19 @@ import { db, storage } from "../firebase";
 import { useAuthContext } from "../context/AuthContext";
 //components
 import UploadDropzone from "../components/UploadDropzone";
+import ImageCard from "../components/ImageCard";
 //hooks
 import useImages from "../hooks/useImages";
+import useAlbums from "../hooks/useAlbums";
 //other
 import { SRLWrapper } from "simple-react-lightbox";
 import { v4 as uuidv4 } from "uuid";
-import cardStyle from "../css/Card.module.css";
+import style from "../css/AlbumPage.module.css";
 
 const AlbumPage = () => {
+  const { id } = useParams();
   const photosQuery = useImages();
+  const albumsQuery = useAlbums();
   const location = useLocation();
   const navigate = useNavigate();
   const { currentUser } = useAuthContext();
@@ -24,6 +29,10 @@ const AlbumPage = () => {
 
   //create variable with unique link to customer
   const newLink = location.pathname.replace("album", "preview");
+
+  //In order to get albumName, we match param id to album id
+  const nameOfAlbum =
+    albumsQuery.data && albumsQuery.data.filter((name) => name.albumId === id);
 
   //copy unique link to customer to clipboard
   const handleShow = () => {
@@ -93,28 +102,25 @@ const AlbumPage = () => {
   };
 
   return (
-    <div>
-      <h1>Welcome to your album </h1>
-      {currentUser && (
-        <button onClick={handleShow}>
-          {copy ? "Copied" : "Copy"} link to share
-        </button>
-      )}
+    <div className={style.superContainer}>
+      <h2>Title: {nameOfAlbum && nameOfAlbum[0].albumName} </h2>
 
-      {currentUser ? <UploadDropzone /> : ""}
+      <button onClick={handleShow}>
+        {copy ? "Copied" : "Copy"} link to share
+      </button>
+
+      <UploadDropzone />
 
       {photosQuery.isLoading && <span>Loading....</span>}
 
       {photosQuery.isError && <span>Something went wrong</span>}
-
       {photosQuery.data && (
         <SRLWrapper>
-          {photosQuery.data.map((photo) => (
-            <div key={photo.imageId} className={cardStyle.cards}>
-              <img src={photo.url} alt="" />
-              <input type="checkbox" onClick={() => handleSelectPhoto(photo)} />
-            </div>
-          ))}
+          <div className={style.cardsContainer}>
+            {photosQuery.data.map((photo) => (
+              <ImageCard photo={photo} handleSelectPhoto={handleSelectPhoto} />
+            ))}
+          </div>
         </SRLWrapper>
       )}
 
@@ -122,7 +128,9 @@ const AlbumPage = () => {
       {photosQuery.data && !photosQuery.data.length ? (
         ""
       ) : (
-        <button onClick={handleNewAlbum}>Save selection in new album</button>
+        <button className={style.buttonSticky} onClick={handleNewAlbum}>
+          Save selection to new album
+        </button>
       )}
     </div>
   );

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faThumbsDown, faThumbsUp } from "@fortawesome/free-solid-svg-icons";
+import cardStyle from "../css/Card.module.css";
 
 const ImageCardClient = ({ photo, handleSelectPhoto, handleDeselectPhoto }) => {
   const [isThumbUp, setIsThumbUp] = useState();
@@ -20,22 +21,26 @@ const ImageCardClient = ({ photo, handleSelectPhoto, handleDeselectPhoto }) => {
     setIsThumbUp(false);
   };
   return (
-    <div>
-      <img src={photo.url} alt="" />
+    <div key={photo.imageId} className={cardStyle.cards}>
+      <img src={photo.url} alt={photo.name} />
 
-      <FontAwesomeIcon
-        color={isThumbUp ? "#a594f9" : ""}
-        icon={faThumbsUp}
-        size="lg"
-        onClick={() => handleLikePhoto(photo)}
-      />
+      <div className={cardStyle.thumbsContainer}>
+        <FontAwesomeIcon
+          color={isThumbUp ? "#a594f9" : ""}
+          icon={faThumbsUp}
+          size="lg"
+          className={cardStyle.thumb}
+          onClick={() => handleLikePhoto(photo)}
+        />
 
-      <FontAwesomeIcon
-        color={isThumbDown ? "#a594f9" : ""}
-        icon={faThumbsDown}
-        size="lg"
-        onClick={() => handleDislikePhoto(photo)}
-      />
+        <FontAwesomeIcon
+          color={isThumbDown ? "#a594f9" : ""}
+          icon={faThumbsDown}
+          size="lg"
+          className={cardStyle.thumb}
+          onClick={() => handleDislikePhoto(photo)}
+        />
+      </div>
     </div>
   );
 };

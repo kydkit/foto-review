@@ -1,15 +1,16 @@
 import React, { useState, useRef } from "react";
 import { useNavigate } from "react-router";
-//hooks
-import useAlbums from "../hooks/useAlbums";
 //fire
 import { db } from "../firebase";
 import { useAuthContext } from "../context/AuthContext";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 //components
 import AlbumsList from "../components/AlbumsList";
+//hooks
+import useAlbums from "../hooks/useAlbums";
 //other
 import { v4 as uuidv4 } from "uuid";
+import style from "../css/HomePage.module.css";
 
 const HomePage = () => {
   const navigate = useNavigate();
@@ -49,8 +50,8 @@ const HomePage = () => {
   };
 
   return (
-    <div>
-      <h1>Home Page</h1>
+    <div className={style.superContainer}>
+      <h1>Welcome to Foto-Foto</h1>
       <p>Hi {currentUser.email}</p>
       <button onClick={createAlbum}>{show ? "-" : "+"} Create Album</button>
 

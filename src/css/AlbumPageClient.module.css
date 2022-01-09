@@ -1,0 +1,56 @@
+.superContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.superContainer h2{
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 240px;
+  text-align: center;
+}
+
+.superContainer button {
+  width: 340px;
+}
+
+.buttonSticky {
+  position: -webkit-sticky;
+  position: sticky;
+  bottom: 32px;
+  opacity: .9;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.buttonStickyMustDo {
+  background-color: gray;
+  position: -webkit-sticky;
+  position: sticky;
+  bottom: 32px;
+  opacity: .9;
+  cursor: default;
+}
+
+.buttonSticky :first-child {
+  font-size: 14px;
+  padding-bottom: 8px;
+}
+
+.cardsContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 40px;
+}
+
+@media (min-width: 760px) {
+  .cardsContainer {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    max-width: 1200px;
+  }
+}

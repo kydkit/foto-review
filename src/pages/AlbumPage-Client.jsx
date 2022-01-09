@@ -12,6 +12,7 @@ import ImageCardClient from "../components/ImageCard-Client";
 import { SRLWrapper } from "simple-react-lightbox";
 import { v4 as uuidv4 } from "uuid";
 import cardStyle from "../css/Card.module.css";
+import style from "../css/AlbumPageClient.module.css";
 
 const AlbumPageClient = () => {
   const photosQuery = useImages();
@@ -106,8 +107,8 @@ const AlbumPageClient = () => {
   };
 
   return (
-    <div>
-      <h1>Welcome to your album</h1>
+    <div className={style.superContainer}>
+      <h2>Welcome to your album</h2>
 
       {photosQuery.isLoading && <span>Loading....</span>}
 
@@ -115,30 +116,35 @@ const AlbumPageClient = () => {
 
       {photosQuery.data && (
         <SRLWrapper>
-          {photosQuery.data.map((photo) => (
-            <div key={photo.imageId} className={cardStyle.cards}>
+          <div className={style.cardsContainer}>
+            {photosQuery.data.map((photo) => (
               <ImageCardClient
                 photo={photo}
                 handleSelectPhoto={handleSelectPhoto}
                 handleDeselectPhoto={handleDeselectPhoto}
               />
-            </div>
-          ))}
+            ))}
+          </div>
         </SRLWrapper>
       )}
 
-      <p>
-        You have liked {numberLiked} of{" "}
-        {photosQuery.data && photosQuery.data.length} photos
-      </p>
       {/* show button only when there are uploaded images */}
-
       {photosQuery.data && photosQuery.data.length !== newSelection.length ? (
-        <button onClick={handleNewAlbum} disabled>
+        <button
+          onClick={handleNewAlbum}
+          disabled
+          className={style.buttonStickyMustDo}
+        >
           Like or dislike all pictures
         </button>
       ) : (
-        <button onClick={handleNewAlbum}>Send</button>
+        <button onClick={handleNewAlbum} className={style.buttonSticky}>
+          <span>
+            You have liked {numberLiked} of{" "}
+            {photosQuery.data && photosQuery.data.length} photos
+          </span>
+          <span>Send</span>
+        </button>
       )}
     </div>
   );
