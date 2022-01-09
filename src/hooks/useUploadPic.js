@@ -35,33 +35,44 @@ const useUploadPic = () => {
       //construct full path in storage to save image as
       const storageFullPath = `images/${image.name}`;
 
-      //reach out to specific storage
-      const storageRef = ref(storage, storageFullPath);
+      try {
+        //reach out to specific storage
+        const storageRef = ref(storage, storageFullPath);
 
-      //upload each image
-      const uploadTask = uploadBytesResumable(storageRef, image);
+        //upload each image
+        const uploadTask = uploadBytesResumable(storageRef, image);
 
-      //wait for upload to be completed
-      await uploadTask.then();
+        //wait for upload to be completed
+        await uploadTask.then();
 
-      //get download url
-      const url = await getDownloadURL(storageRef);
+        //get download url
+        const url = await getDownloadURL(storageRef);
 
-      //create ref to db 'images'
-      const collectionRef = collection(db, "images");
+        //create ref to db 'images'
+        const collectionRef = collection(db, "images");
 
-      //create doc in db for the uploaded image
-      await addDoc(collectionRef, {
-        created: serverTimestamp(),
-        name: image.name,
-        owner: currentUser.uid,
-        path: storageRef.fullPath,
-        size: image.size,
-        type: image.type,
-        imageId,
-        albumId,
-        url,
-      });
+        //create doc in db for the uploaded image
+        await addDoc(collectionRef, {
+          created: serverTimestamp(),
+          name: image.name,
+          owner: currentUser.uid,
+          path: storageRef.fullPath,
+          size: image.size,
+          type: image.type,
+          imageId,
+          albumId,
+          url,
+        });
+
+        // success
+        setIsSuccess(true);
+        setIsMutating(false);
+      } catch (e) {
+        setError(e.message);
+        setIsError(true);
+        setIsMutating(false);
+        setIsSuccess(false);
+      }
     });
   };
 

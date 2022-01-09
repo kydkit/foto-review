@@ -51,7 +51,9 @@ const UploadDropzone = () => {
             <span>Drop your file(s) here to upload</span>
           )}
         </div>
-        {uploadPic.error ? <span>{uploadPic.error}</span> : ""}
+
+        {uploadPic.error && <span>{uploadPic.error}</span>}
+        {uploadPic.isSuccess && <span>Thanks for the file(s)!</span>}
       </div>
     </>
   );
