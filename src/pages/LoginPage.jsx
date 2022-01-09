@@ -29,7 +29,7 @@ const LoginPage = () => {
   };
   return (
     <div className={style.container}>
-      <h1>Welcome to Photobook!</h1>
+      <h1>Welcome to Foto-Foto!</h1>
 
       <form onSubmit={handleSubmit} className={style.formContainer}>
         <input

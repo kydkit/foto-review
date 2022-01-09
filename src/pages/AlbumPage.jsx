@@ -10,7 +10,6 @@ import UploadDropzone from "../components/UploadDropzone";
 import ImageCard from "../components/ImageCard";
 //hooks
 import useImages from "../hooks/useImages";
-import useAlbums from "../hooks/useAlbums";
 //other
 import { SRLWrapper } from "simple-react-lightbox";
 import { v4 as uuidv4 } from "uuid";
