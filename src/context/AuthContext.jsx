@@ -35,6 +35,7 @@ const AuthContextProvider = ({ children }) => {
       setCurrentUser(user);
       setLoading(false);
     });
+    // eslint-disable-next-line
   }, []);
 
   const contextValues = {
