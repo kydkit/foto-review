@@ -14,7 +14,7 @@ import style from "../css/HomePage.module.css";
 
 const HomePage = () => {
   const navigate = useNavigate();
-  const albumsQuery = useAlbums();
+  const albumsQuery = useAlbums({ fetchOnlyCurrentUser: true });
   const { currentUser } = useAuthContext();
   const [show, setShow] = useState();
   const albumNameRef = useRef();

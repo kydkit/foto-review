@@ -3,20 +3,24 @@ import { collection, query, where, orderBy } from "firebase/firestore";
 import { db } from "../firebase";
 import { useAuthContext } from "../context/AuthContext";
 
-const useAlbums = () => {
+const useAlbums = (params = {}) => {
   const { currentUser } = useAuthContext();
 
   //reaching out to albums collection in the db
   const colPhotosRef = collection(db, "albums");
 
-  const queryKey = ["albums"];
+  const queryKey = params.fetchOnlyCurrentUser
+    ? ["albums", currentUser.uid]
+    : ["albums"];
 
   // query for data under specific owner id
-  const queryRef = query(
-    colPhotosRef,
-    where("owner", "==", currentUser.uid),
-    orderBy("created", "desc")
-  );
+  const queryRef = params.fetchOnlyCurrentUser
+    ? query(
+        colPhotosRef,
+        where("owner", "==", currentUser.uid),
+        orderBy("created", "desc")
+      )
+    : query(colPhotosRef, orderBy("created", "desc"));
 
   const albumsQuery = useFirestoreQueryData(
     queryKey,
