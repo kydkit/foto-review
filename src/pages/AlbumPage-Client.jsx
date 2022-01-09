@@ -116,8 +116,9 @@ const AlbumPageClient = () => {
       {photosQuery.data && (
         <SRLWrapper>
           <div className={style.cardsContainer}>
-            {photosQuery.data.map((photo) => (
+            {photosQuery.data.map((photo, index) => (
               <ImageCardClient
+                key={index}
                 photo={photo}
                 handleSelectPhoto={handleSelectPhoto}
                 handleDeselectPhoto={handleDeselectPhoto}

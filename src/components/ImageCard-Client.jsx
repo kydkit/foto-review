@@ -21,7 +21,7 @@ const ImageCardClient = ({ photo, handleSelectPhoto, handleDeselectPhoto }) => {
     setIsThumbUp(false);
   };
   return (
-    <div key={photo.imageId} className={cardStyle.cards}>
+    <div className={cardStyle.cards}>
       <img src={photo.url} alt={photo.name} />
 
       <div className={cardStyle.thumbsContainer}>

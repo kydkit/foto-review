@@ -8,6 +8,8 @@
   width: 240px;
   margin: 0 16px;
   margin-bottom: 16px;
+  height: 30vh;
+  object-fit: cover;
 }
 
 .cards label {
