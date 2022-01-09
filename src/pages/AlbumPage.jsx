@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 //fire
 import { ref, getDownloadURL } from "firebase/storage";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
@@ -17,14 +17,13 @@ import style from "../css/AlbumPage.module.css";
 
 const AlbumPage = () => {
   const photosQuery = useImages();
-  const location = useLocation();
   const navigate = useNavigate();
   const { currentUser } = useAuthContext();
   const [copy, setCopy] = useState(false);
   const [newSelection, setNewSelection] = useState([]);
 
   //create variable with unique link to customer
-  const newLink = location.pathname.replace("album", "preview");
+  const newLink = window.location.href.replace("album", "preview");
 
   //copy unique link to customer to clipboard
   const handleShow = () => {
