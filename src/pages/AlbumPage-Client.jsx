@@ -111,7 +111,9 @@ const AlbumPageClient = () => {
 
       {photosQuery.isLoading && <span>Loading....</span>}
 
-      {photosQuery.isError && <span>Something went wrong</span>}
+      {photosQuery.isError && (
+        <span>Something went wrong. {photosQuery.error}</span>
+      )}
 
       {photosQuery.data && (
         <SRLWrapper>

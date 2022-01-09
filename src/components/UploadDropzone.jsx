@@ -34,8 +34,8 @@ const UploadDropzone = () => {
       <div
         {...getRootProps()}
         id={style.dropzoneWrapper}
-        className={`${isDragAccept ? "drag-accept" : ""}${
-          isDragReject ? "drag-reject" : ""
+        className={`${isDragAccept ? style.dragAccept : ""}${
+          isDragReject ? style.dragReject : ""
         }`}
       >
         <input {...getInputProps()} />
