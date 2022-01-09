@@ -11,7 +11,6 @@ import ImageCardClient from "../components/ImageCard-Client";
 //other
 import { SRLWrapper } from "simple-react-lightbox";
 import { v4 as uuidv4 } from "uuid";
-import cardStyle from "../css/Card.module.css";
 import style from "../css/AlbumPageClient.module.css";
 
 const AlbumPageClient = () => {
