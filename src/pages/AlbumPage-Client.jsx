@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 //fire
 import { ref, getDownloadURL } from "firebase/storage";
@@ -7,7 +7,7 @@ import { db, storage } from "../firebase";
 //hooks
 import useImages from "../hooks/useImages";
 //components
-import AlbumCardClient from "../components/AlbumCard-Client";
+import ImageCardClient from "../components/ImageCard-Client";
 //other
 import { SRLWrapper } from "simple-react-lightbox";
 import { v4 as uuidv4 } from "uuid";
@@ -17,7 +17,6 @@ const AlbumPageClient = () => {
   const photosQuery = useImages();
   const navigate = useNavigate();
   const [newSelection, setNewSelection] = useState([]);
-  const [counter, setCounter] = useState(0);
 
   const handleSelectPhoto = (image) => {
     let index = newSelection.findIndex(
@@ -26,7 +25,6 @@ const AlbumPageClient = () => {
     //if image already exist in array, remove it from array with splice
     if (index > -1) {
       newSelection.splice(index, 1);
-      console.log("deleted from newSelection array", newSelection);
     }
     setNewSelection([
       ...newSelection,
@@ -47,7 +45,6 @@ const AlbumPageClient = () => {
     //if image already exist in array, remove it from array with splice
     if (index > -1) {
       newSelection.splice(index, 1);
-      console.log("deleted from newSelection array", newSelection);
     }
     setNewSelection([
       ...newSelection,
@@ -60,7 +57,6 @@ const AlbumPageClient = () => {
       },
     ]);
   };
-  console.log("added to newSelection array", newSelection);
 
   const numberLiked = newSelection.filter(
     (liked) => liked.isSelected === true
@@ -68,7 +64,6 @@ const AlbumPageClient = () => {
 
   const handleNewAlbum = async () => {
     const owner = newSelection && newSelection[0].owner;
-    console.log(owner);
     // generate uuid for an album
     const albumId = uuidv4();
     //create new album name with date and time
@@ -122,7 +117,7 @@ const AlbumPageClient = () => {
         <SRLWrapper>
           {photosQuery.data.map((photo) => (
             <div key={photo.imageId} className={cardStyle.cards}>
-              <AlbumCardClient
+              <ImageCardClient
                 photo={photo}
                 handleSelectPhoto={handleSelectPhoto}
                 handleDeselectPhoto={handleDeselectPhoto}

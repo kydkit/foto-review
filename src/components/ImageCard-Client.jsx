@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faThumbsDown, faThumbsUp } from "@fortawesome/free-solid-svg-icons";
 
-const AlbumCardClient = ({ photo, handleSelectPhoto, handleDeselectPhoto }) => {
+const ImageCardClient = ({ photo, handleSelectPhoto, handleDeselectPhoto }) => {
   const [isThumbUp, setIsThumbUp] = useState();
   const [isThumbDown, setIsThumbDown] = useState();
 
@@ -40,4 +40,4 @@ const AlbumCardClient = ({ photo, handleSelectPhoto, handleDeselectPhoto }) => {
   );
 };
 
-export default AlbumCardClient;
+export default ImageCardClient;

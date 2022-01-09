@@ -1,5 +1,7 @@
 import React from "react";
-import { Link } from "react-router-dom";
+
+import AlbumCard from "./AlbumCard";
+
 const AlbumsList = ({ albums }) => {
   return (
     <div>
@@ -12,10 +14,7 @@ const AlbumsList = ({ albums }) => {
       {albums.data &&
         albums.data.map((album) => (
           <div key={album.albumId}>
-            <Link to={`/album/${album.albumId}`}>
-              <img src="assets/folder.svg" alt="" />
-            </Link>
-            <p>{album.albumName}</p>
+            <AlbumCard album={album} />
           </div>
         ))}
     </div>

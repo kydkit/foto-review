@@ -18,9 +18,17 @@ const useAlbums = () => {
     orderBy("created", "desc")
   );
 
-  const albumsQuery = useFirestoreQueryData(queryKey, queryRef, {
-    idField: "_id",
-  });
+  const albumsQuery = useFirestoreQueryData(
+    queryKey,
+    queryRef,
+    {
+      idField: "_id",
+      subscribe: true,
+    },
+    {
+      refetchOnMount: "always",
+    }
+  );
 
   return albumsQuery;
 };
