@@ -17,9 +17,7 @@ import { v4 as uuidv4 } from "uuid";
 import style from "../css/AlbumPage.module.css";
 
 const AlbumPage = () => {
-  const { id } = useParams();
   const photosQuery = useImages();
-  const albumsQuery = useAlbums();
   const location = useLocation();
   const navigate = useNavigate();
   const { currentUser } = useAuthContext();
@@ -28,10 +26,6 @@ const AlbumPage = () => {
 
   //create variable with unique link to customer
   const newLink = location.pathname.replace("album", "preview");
-
-  //In order to get albumName, we match param id to album id
-  const nameOfAlbum =
-    albumsQuery.data && albumsQuery.data.filter((name) => name.albumId === id);
 
   //copy unique link to customer to clipboard
   const handleShow = () => {
@@ -102,7 +96,8 @@ const AlbumPage = () => {
 
   return (
     <div className={style.superContainer}>
-      <h2>Title: {nameOfAlbum && nameOfAlbum[0].albumName} </h2>
+      {/* <h2>Title: {nameOfAlbum && nameOfAlbum[0].albumName} </h2> */}
+      <h2>Some cool photos</h2>
 
       <button onClick={handleShow}>
         {copy ? "Copied" : "Copy"} link to share
