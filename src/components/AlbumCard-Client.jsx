@@ -7,14 +7,14 @@ const AlbumCardClient = ({ photo, handleSelectPhoto, handleDeselectPhoto }) => {
   const [isThumbDown, setIsThumbDown] = useState();
 
   const handleLikePhoto = (photo) => {
-    setIsThumbUp(!isThumbUp);
+    setIsThumbUp(true);
     handleSelectPhoto(photo);
 
     setIsThumbDown(false);
   };
 
   const handleDislikePhoto = (photo) => {
-    setIsThumbDown(!isThumbDown);
+    setIsThumbDown(true);
     handleDeselectPhoto(photo);
 
     setIsThumbUp(false);

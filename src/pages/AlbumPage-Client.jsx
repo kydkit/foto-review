@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 //fire
 import { ref, getDownloadURL } from "firebase/storage";
@@ -19,7 +19,6 @@ const AlbumPageClient = () => {
   const [newSelection, setNewSelection] = useState([]);
   const [counter, setCounter] = useState(0);
 
-  //add selection to new array, if selection has already been picked then it will be unselected
   const handleSelectPhoto = (image) => {
     let index = newSelection.findIndex(
       (selection) => selection.name === image.name
@@ -28,10 +27,7 @@ const AlbumPageClient = () => {
     if (index > -1) {
       newSelection.splice(index, 1);
       console.log("deleted from newSelection array", newSelection);
-      setCounter(counter - 1);
-      return;
     }
-    //if image doesn't exist in array, add to array
     setNewSelection([
       ...newSelection,
       {
@@ -39,14 +35,12 @@ const AlbumPageClient = () => {
         size: image.size,
         type: image.type,
         owner: image.owner,
+        isSelected: true,
       },
     ]);
-    setCounter(counter + 1);
   };
-  console.log("added to newSelection array", newSelection);
 
   const handleDeselectPhoto = (image) => {
-    console.log("deselect");
     let index = newSelection.findIndex(
       (selection) => selection.name === image.name
     );
@@ -54,10 +48,23 @@ const AlbumPageClient = () => {
     if (index > -1) {
       newSelection.splice(index, 1);
       console.log("deleted from newSelection array", newSelection);
-      setCounter(counter - 1);
-      return;
     }
+    setNewSelection([
+      ...newSelection,
+      {
+        name: image.name,
+        size: image.size,
+        type: image.type,
+        owner: image.owner,
+        isSelected: false,
+      },
+    ]);
   };
+  console.log("added to newSelection array", newSelection);
+
+  const numberLiked = newSelection.filter(
+    (liked) => liked.isSelected === true
+  ).length;
 
   const handleNewAlbum = async () => {
     const owner = newSelection && newSelection[0].owner;
@@ -74,7 +81,11 @@ const AlbumPageClient = () => {
       albumId,
     });
 
-    newSelection.forEach(async (image) => {
+    const likedPics = newSelection.filter(
+      (likedPics) => likedPics.isSelected === true
+    );
+
+    likedPics.forEach(async (image) => {
       const imageId = uuidv4();
       const storageFullPath = `images/${image.name}`;
       //reach out to specific storage
@@ -122,11 +133,15 @@ const AlbumPageClient = () => {
       )}
 
       <p>
-        {counter} of {photosQuery.data && photosQuery.data.length} selected
+        You have liked {numberLiked} of{" "}
+        {photosQuery.data && photosQuery.data.length} photos
       </p>
       {/* show button only when there are uploaded images */}
-      {photosQuery.data && !photosQuery.data.length ? (
-        ""
+
+      {photosQuery.data && photosQuery.data.length !== newSelection.length ? (
+        <button onClick={handleNewAlbum} disabled>
+          Like or dislike all pictures
+        </button>
       ) : (
         <button onClick={handleNewAlbum}>Send</button>
       )}
