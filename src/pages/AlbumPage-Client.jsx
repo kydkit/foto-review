@@ -108,6 +108,10 @@ const AlbumPageClient = () => {
   return (
     <div className={style.superContainer}>
       <h2>Welcome to your album</h2>
+      <p>
+        Select the photos you like and dislike and send them back to the
+        photographer.
+      </p>
 
       {photosQuery.isLoading && <span>Loading....</span>}
 

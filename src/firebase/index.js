@@ -5,12 +5,12 @@ import { getStorage } from "firebase/storage";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyAHLQWvpRjgj78Apl2YFc8W1FlxeUDZvC0",
-  authDomain: "foto-review-13e79.firebaseapp.com",
-  projectId: "foto-review-13e79",
-  storageBucket: "foto-review-13e79.appspot.com",
-  messagingSenderId: "132068279147",
-  appId: "1:132068279147:web:89202fcd6061966aa8822e",
+  apiKey: process.env.REACT_APP_apiKey,
+  authDomain: process.env.REACT_APP_authDomain,
+  projectId: process.env.REACT_APP_projectId,
+  storageBucket: process.env.REACT_APP_storageBucket,
+  messagingSenderId: process.env.REACT_APP_messagingSenderId,
+  appId: process.env.REACT_APP_appId,
 };
 
 // Initialize Firebase

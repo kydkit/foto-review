@@ -11,6 +11,13 @@
   text-align: center;
 }
 
+.superContainer p {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 300px;
+  text-align: center;
+}
+
 .superContainer button {
   width: 340px;
 }

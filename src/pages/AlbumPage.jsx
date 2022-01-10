@@ -95,7 +95,7 @@ const AlbumPage = () => {
   return (
     <div className={style.superContainer}>
       {/* <h2>Title: {nameOfAlbum && nameOfAlbum[0].albumName} </h2> */}
-      <h2>Some cool photos</h2>
+      <h2>Here is your album</h2>
 
       <button onClick={handleShow}>
         {copy ? "Copied" : "Copy"} link to share
