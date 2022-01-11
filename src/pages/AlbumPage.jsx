@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 //fire
 import { ref, getDownloadURL } from "firebase/storage";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
@@ -10,24 +10,17 @@ import UploadDropzone from "../components/UploadDropzone";
 import ImageCard from "../components/ImageCard";
 //hooks
 import useImages from "../hooks/useImages";
-import useAlbums from "../hooks/useAlbums";
 //other
 import { SRLWrapper } from "simple-react-lightbox";
 import { v4 as uuidv4 } from "uuid";
 import style from "../css/AlbumPage.module.css";
 
 const AlbumPage = () => {
-  const { id } = useParams();
   const photosQuery = useImages();
-  const albumsQuery = useAlbums();
   const navigate = useNavigate();
   const { currentUser } = useAuthContext();
   const [copy, setCopy] = useState(false);
   const [newSelection, setNewSelection] = useState([]);
-
-  const nameOfAlbum =
-    albumsQuery.data &&
-    albumsQuery.data.find((n) => n.albumId === id).albumName;
 
   //create variable with unique link to customer
   const newLink = window.location.href.replace("album", "preview");
@@ -101,7 +94,7 @@ const AlbumPage = () => {
 
   return (
     <div className={style.superContainer}>
-      <h2>Album title: {nameOfAlbum} </h2>
+      <h2>Welcome to your album</h2>
 
       <button onClick={handleShow}>
         {copy ? "Copied" : "Copy"} link to share

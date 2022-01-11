@@ -38,3 +38,7 @@
 .aLink:link, .aLink:visited {
   text-decoration: none;
 }
+
+.signupText {
+  font-size: 1.3rem;
+}

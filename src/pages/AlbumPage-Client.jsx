@@ -1,12 +1,11 @@
 import React, { useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 //fire
 import { ref, getDownloadURL } from "firebase/storage";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { db, storage } from "../firebase";
 //hooks
 import useImages from "../hooks/useImages";
-import useAlbums from "../hooks/useAlbums";
 //components
 import ImageCardClient from "../components/ImageCard-Client";
 //other
@@ -15,15 +14,9 @@ import { v4 as uuidv4 } from "uuid";
 import style from "../css/AlbumPageClient.module.css";
 
 const AlbumPageClient = () => {
-  const { id } = useParams();
   const photosQuery = useImages();
-  const albumsQuery = useAlbums();
   const navigate = useNavigate();
   const [newSelection, setNewSelection] = useState([]);
-
-  const nameOfAlbum =
-    albumsQuery.data &&
-    albumsQuery.data.find((n) => n.albumId === id).albumName;
 
   const handleSelectPhoto = (image) => {
     let index = newSelection.findIndex(
@@ -108,13 +101,13 @@ const AlbumPageClient = () => {
         url,
       });
     });
-    alert("Your selections have been sent to the photographer");
-    navigate("/");
+    navigate("/confirmation");
   };
 
   return (
     <div className={style.superContainer}>
-      <h2>Album title: {nameOfAlbum} </h2>
+      {/* <h2>Title: {nameOfAlbum} </h2> */}
+      <h2>Welcome to your album</h2>
       <p>
         Select the photos you like and dislike and send them back to the
         photographer.
@@ -143,18 +136,24 @@ const AlbumPageClient = () => {
 
       {/* show button only when there are uploaded images */}
       {photosQuery.data && photosQuery.data.length !== newSelection.length ? (
-        <button
-          onClick={handleNewAlbum}
-          disabled
-          className={style.buttonStickyMustDo}
-        >
+        <button disabled className={style.buttonStickyMustDo}>
           Like or dislike all pictures
         </button>
-      ) : (
+      ) : numberLiked ? (
         <button onClick={handleNewAlbum} className={style.buttonSticky}>
           <span>
             You have liked {numberLiked} of{" "}
             {photosQuery.data && photosQuery.data.length} photos
+          </span>
+          <span>Send</span>
+        </button>
+      ) : (
+        <button onClick={handleNewAlbum} className={style.buttonSticky}>
+          <span>
+            You are sending 0 liked photos{" "}
+            <span role="img" aria-label="frown face">
+              🙁
+            </span>
           </span>
           <span>Send</span>
         </button>

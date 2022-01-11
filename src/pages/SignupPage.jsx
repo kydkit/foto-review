@@ -65,10 +65,10 @@ const Signup = () => {
       </form>
       {error ? <span>{error}</span> : ""}
       {loading ? <span>...Loading</span> : ""}
-      <p>
-        Already a member? Log in{" "}
+      <p className={style.signupText}>
+        Already a member?{" "}
         <Link className={style.aLink} to="/login">
-          here
+          Log in here
         </Link>
       </p>
     </div>

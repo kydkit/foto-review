@@ -10,6 +10,7 @@ import Navigation from "./pages/partials/Navigation";
 import RequireAuth from "./components/RequireAuth";
 import AlbumPage from "./pages/AlbumPage";
 import AlbumPageClient from "./pages/AlbumPage-Client";
+import ConfirmationPage from "./pages/ConfirmationPage";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/logout" element={<LogoutPage />} />
+        <Route path="/confirmation" element={<ConfirmationPage />} />
         {/* link for customer to preview images */}
         <Route path="/preview/:id" element={<AlbumPageClient />} />
 

@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router";
 //fire
 import { useAuthContext } from "../context/AuthContext";
-//style
+//style (using same style as signupPage)
 import style from "../css/SignupPage.module.css";
 
 const LoginPage = () => {
@@ -54,10 +54,10 @@ const LoginPage = () => {
         <button type="submit">Log in</button>
       </form>
 
-      <p>
-        Not a member yet? Sign up{" "}
+      <p className={style.signupText}>
+        Not a member yet?{" "}
         <Link className={style.aLink} to="/signup">
-          here
+          Sign up here
         </Link>
       </p>
     </div>
