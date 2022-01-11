@@ -22,6 +22,15 @@
   opacity: .9;
 }
 
+.buttonStickyMustDo {
+  background-color: gray;
+  position: -webkit-sticky;
+  position: sticky;
+  bottom: 32px;
+  opacity: .9;
+  cursor: default;
+}
+
 .cardsContainer {
   display: flex;
   flex-direction: column;

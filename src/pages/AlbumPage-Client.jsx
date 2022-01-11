@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 //fire
 import { ref, getDownloadURL } from "firebase/storage";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { db, storage } from "../firebase";
 //hooks
 import useImages from "../hooks/useImages";
+import useAlbums from "../hooks/useAlbums";
 //components
 import ImageCardClient from "../components/ImageCard-Client";
 //other
@@ -14,9 +15,15 @@ import { v4 as uuidv4 } from "uuid";
 import style from "../css/AlbumPageClient.module.css";
 
 const AlbumPageClient = () => {
+  const { id } = useParams();
   const photosQuery = useImages();
+  const albumsQuery = useAlbums();
   const navigate = useNavigate();
   const [newSelection, setNewSelection] = useState([]);
+
+  const nameOfAlbum =
+    albumsQuery.data &&
+    albumsQuery.data.find((n) => n.albumId === id).albumName;
 
   const handleSelectPhoto = (image) => {
     let index = newSelection.findIndex(
@@ -107,7 +114,7 @@ const AlbumPageClient = () => {
 
   return (
     <div className={style.superContainer}>
-      <h2>Welcome to your album</h2>
+      <h2>Album title: {nameOfAlbum} </h2>
       <p>
         Select the photos you like and dislike and send them back to the
         photographer.
