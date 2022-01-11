@@ -63,8 +63,7 @@ const HomePage = () => {
       ) : (
         ""
       )}
-
-      <AlbumsList albums={albumsQuery} />
+      {albumsQuery && <AlbumsList albums={albumsQuery} />}
     </div>
   );
 };
