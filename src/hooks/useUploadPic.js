@@ -10,6 +10,7 @@ const useUploadPic = () => {
   const [isError, setIsError] = useState(null);
   const [isMutating, setIsMutating] = useState(null);
   const [isSuccess, setIsSuccess] = useState(null);
+  const [progress, setProgress] = useState(null);
 
   const { currentUser } = useAuthContext();
 
@@ -42,6 +43,18 @@ const useUploadPic = () => {
         //upload each image
         const uploadTask = uploadBytesResumable(storageRef, image);
 
+        // attach upload observer
+        uploadTask.on("state_changed", (uploadTaskSnapshot) => {
+          // update progress
+          setProgress(
+            Math.round(
+              (uploadTaskSnapshot.bytesTransferred /
+                uploadTaskSnapshot.totalBytes) *
+                1000
+            ) / 10
+          );
+        });
+
         //wait for upload to be completed
         await uploadTask.then();
 
@@ -65,6 +78,7 @@ const useUploadPic = () => {
         });
 
         // success
+        setProgress(null);
         setIsSuccess(true);
         setIsMutating(false);
       } catch (e) {
@@ -76,7 +90,7 @@ const useUploadPic = () => {
     });
   };
 
-  return { error, isError, isMutating, isSuccess, mutate };
+  return { error, isError, isMutating, isSuccess, mutate, progress };
 };
 
 export default useUploadPic;

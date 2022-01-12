@@ -4,6 +4,7 @@ import { useDropzone } from "react-dropzone";
 import { useParams } from "react-router-dom";
 import style from "../css/Dropzone.module.css";
 import useUploadPic from "../hooks/useUploadPic";
+import ProgressBar from "@ramonak/react-progress-bar";
 
 const UploadDropzone = () => {
   const { id } = useParams();
@@ -52,8 +53,18 @@ const UploadDropzone = () => {
           )}
         </div>
 
-        {uploadPic.error && <span>{uploadPic.error}</span>}
-        {uploadPic.isSuccess && <span>Thanks for the file(s)!</span>}
+        <div style={{ marginTop: 16 }}>
+          {uploadPic.progress !== null && (
+            <ProgressBar
+              completed={uploadPic.progress}
+              isLabelVisible={false}
+            />
+          )}
+
+          {uploadPic.error && <span>{uploadPic.error}</span>}
+
+          {uploadPic.isSuccess && <span>Thanks for the file(s)!</span>}
+        </div>
       </div>
     </>
   );
