@@ -19,10 +19,6 @@ const HomePage = () => {
   const [show, setShow] = useState();
   const albumNameRef = useRef();
 
-  const createAlbum = () => {
-    setShow(!show);
-  };
-
   const handleNameSubmit = async (e) => {
     e.preventDefault();
     if (!albumNameRef.current.value) {
@@ -32,13 +28,15 @@ const HomePage = () => {
     //generate uuid for an album
     const albumId = uuidv4();
 
+    let albumName = albumNameRef.current.value;
+
     //reach out to albums collection in the db
     const albumRef = collection(db, "albums");
 
     await addDoc(albumRef, {
       created: serverTimestamp(),
       owner: currentUser.uid,
-      albumName: albumNameRef.current.value,
+      albumName,
       albumId,
     });
 
@@ -46,14 +44,22 @@ const HomePage = () => {
     setShow(false);
 
     //go directly to album to upload images
-    navigate(`/album/${albumId}`);
+    navigate(`/album/${albumId}`, {
+      state: {
+        albumId,
+        albumName,
+        owner: currentUser.uid,
+      },
+    });
   };
 
   return (
     <div className={style.superContainer}>
       <h1>Welcome to Foto-Foto</h1>
       <p>Hi {currentUser.email}</p>
-      <button onClick={createAlbum}>{show ? "-" : "+"} Create Album</button>
+      <button onClick={() => setShow(!show)}>
+        {show ? "-" : "+"} Create Album
+      </button>
 
       {show ? (
         <form onSubmit={handleNameSubmit}>

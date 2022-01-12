@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 //fire
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../firebase";
@@ -9,6 +9,7 @@ import { faPen } from "@fortawesome/free-solid-svg-icons";
 import style from "../css/Album.module.css";
 
 const AlbumCard = ({ album }) => {
+  const navigate = useNavigate();
   const albumChangeNameRef = useRef();
   const [show, setShow] = useState();
 
@@ -32,11 +33,16 @@ const AlbumCard = ({ album }) => {
     setShow(false);
   };
 
+  const goToAlbum = () => {
+    navigate(`/album/${album.albumId}`, { state: album });
+  };
+
   return (
     <div className={style.folderGroup}>
-      <Link to={`/album/${album.albumId}`} className={style.folder}>
+      <div onClick={goToAlbum} className={style.folder}>
         <img src="assets/folder.svg" alt="" />
-      </Link>
+      </div>
+
       <div className={style.folderInfo}>
         <span>{album.albumName}</span>
         <FontAwesomeIcon
@@ -44,6 +50,7 @@ const AlbumCard = ({ album }) => {
           onClick={handleEditName}
           className={style.pen}
         />
+
         {show ? (
           <form
             onSubmit={(e) => handleNameChangeSubmit(e)}

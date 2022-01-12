@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link, useLocation } from "react-router-dom";
 //fire
 import { ref, getDownloadURL } from "firebase/storage";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
@@ -16,6 +16,7 @@ import { v4 as uuidv4 } from "uuid";
 import style from "../css/AlbumPage.module.css";
 
 const AlbumPage = () => {
+  const location = useLocation();
   const photosQuery = useImages();
   const navigate = useNavigate();
   const { currentUser } = useAuthContext();
@@ -66,6 +67,7 @@ const AlbumPage = () => {
 
     newSelection.forEach(async (image) => {
       const imageId = uuidv4();
+
       const storageFullPath = `images/${image.name}`;
 
       //reach out to specific storage
@@ -73,6 +75,7 @@ const AlbumPage = () => {
 
       //get download url
       const url = await getDownloadURL(storageRef);
+
       //create ref to db 'images'
       const collectionRef = collection(db, "images");
 
@@ -94,42 +97,55 @@ const AlbumPage = () => {
 
   return (
     <div className={style.superContainer}>
-      <h2>Welcome to your album</h2>
-
-      <button onClick={handleShow}>
-        {copy ? "Copied" : "Copy"} link to share
-      </button>
-
-      <UploadDropzone />
-
-      {photosQuery.isLoading && <span>Loading....</span>}
-
-      {photosQuery.isError && <span>Something went wrong</span>}
-      {photosQuery.data && (
-        <SRLWrapper>
-          <div className={style.cardsContainer}>
-            {photosQuery.data.map((photo, index) => (
-              <ImageCard
-                key={index}
-                photo={photo}
-                handleSelectPhoto={handleSelectPhoto}
-              />
-            ))}
-          </div>
-        </SRLWrapper>
-      )}
-
-      {/* show button only when there are uploaded images */}
-      {photosQuery.data && !photosQuery.data.length ? (
-        ""
-      ) : newSelection.length ? (
-        <button className={style.buttonSticky} onClick={handleNewAlbum}>
-          Save selection to new album
-        </button>
+      {/* if location.state is null (if it's a link that isn't allowed, then it will not render the images in the album). Location.state will always have a value if coming from homepage */}
+      {location.state === null ? (
+        <h2>
+          Something went wrong. Go back to{" "}
+          <Link className="links" to="/">
+            homepage
+          </Link>
+        </h2>
       ) : (
-        <button className={style.buttonStickyMustDo}>
-          Select photos to create new album
-        </button>
+        <>
+          <h2>Title: {location.state.albumName}</h2>
+
+          <button onClick={handleShow}>
+            {copy ? "Copied" : "Copy"} link to share
+          </button>
+
+          <UploadDropzone />
+
+          {photosQuery.isLoading && <h3>Loading....</h3>}
+
+          {photosQuery.isError && <span>Something went wrong</span>}
+
+          {photosQuery.data && (
+            <SRLWrapper>
+              <div className={style.cardsContainer}>
+                {photosQuery.data.map((photo, index) => (
+                  <ImageCard
+                    key={index}
+                    photo={photo}
+                    handleSelectPhoto={handleSelectPhoto}
+                  />
+                ))}
+              </div>
+            </SRLWrapper>
+          )}
+
+          {/* show button only when there are uploaded images */}
+          {photosQuery.data && !photosQuery.data.length ? (
+            ""
+          ) : newSelection.length ? (
+            <button className={style.buttonSticky} onClick={handleNewAlbum}>
+              Save selection to new album
+            </button>
+          ) : (
+            <button className={style.buttonStickyMustDo}>
+              Select photos to create new album
+            </button>
+          )}
+        </>
       )}
     </div>
   );

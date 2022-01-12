@@ -56,7 +56,7 @@ const LoginPage = () => {
 
       <p className={style.signupText}>
         Not a member yet?{" "}
-        <Link className={style.aLink} to="/signup">
+        <Link className="links" to="/signup">
           Sign up here
         </Link>
       </p>

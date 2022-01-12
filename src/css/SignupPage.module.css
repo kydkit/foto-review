@@ -27,18 +27,6 @@
   margin-top: 1rem;
 }
 
-.aLink:link, .aLink:visited, .aLink:active {
-  color:#fff
-}
-
-.aLink:hover {
-  font-weight: 700;
-}
-
-.aLink:link, .aLink:visited {
-  text-decoration: none;
-}
-
 .signupText {
   font-size: 1.3rem;
 }

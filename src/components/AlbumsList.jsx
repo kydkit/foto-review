@@ -7,7 +7,7 @@ const AlbumsList = ({ albums }) => {
     <>
       <h2>A collection of all albums</h2>
       <div className={style.albumsContainer}>
-        {albums.isLoading && <span>Loading...</span>}
+        {albums.isLoading && <h3>Loading...</h3>}
 
         {albums.isError && <span>Something went wrong</span>}
 

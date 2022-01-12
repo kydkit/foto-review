@@ -106,14 +106,13 @@ const AlbumPageClient = () => {
 
   return (
     <div className={style.superContainer}>
-      {/* <h2>Title: {nameOfAlbum} </h2> */}
       <h2>Welcome to your album</h2>
       <p>
         Select the photos you like and dislike and send them back to the
         photographer.
       </p>
 
-      {photosQuery.isLoading && <span>Loading....</span>}
+      {photosQuery.isLoading && <h3>Loading....</h3>}
 
       {photosQuery.isError && (
         <span>Something went wrong. {photosQuery.error}</span>

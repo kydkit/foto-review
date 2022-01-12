@@ -67,7 +67,7 @@ const Signup = () => {
       {loading ? <span>...Loading</span> : ""}
       <p className={style.signupText}>
         Already a member?{" "}
-        <Link className={style.aLink} to="/login">
+        <Link className="links" to="/login">
           Log in here
         </Link>
       </p>

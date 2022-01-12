@@ -48,3 +48,13 @@ button {
   font-weight: 700;
   cursor: pointer;
 }
+
+.links:link, .links:visited {
+  color: #fff;
+  /* text-decoration: none; */
+}
+
+.links:hover {
+  color: #a594f9;
+  /* text-decoration: none; */
+}
