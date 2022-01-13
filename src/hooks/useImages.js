@@ -9,7 +9,7 @@ const useImages = () => {
   //reach out to images collection on the db
   const colPhotosRef = collection(db, "images");
 
-  const queryKey = ["images"];
+  const queryKey = id ? ["images", id] : ["images"];
 
   //query specific albumId
   const queryAlbumRef = query(
