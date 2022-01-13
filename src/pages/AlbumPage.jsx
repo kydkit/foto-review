@@ -97,7 +97,7 @@ const AlbumPage = () => {
 
   return (
     <div className={style.superContainer}>
-      {/* if location.state is null (if it's a link that isn't allowed, then it will not render the images in the album). Location.state will always have a value if coming from homepage */}
+      {/* prevent pasting in other users' album url */}
       {location.state === null ? (
         <h2>
           Something went wrong. Go back to{" "}

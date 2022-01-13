@@ -10,6 +10,7 @@
   margin-bottom: 16px;
   height: 30vh;
   object-fit: cover;
+  cursor: zoom-in;
 }
 
 .cards label {
